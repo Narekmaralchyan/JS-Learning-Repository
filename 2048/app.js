@@ -6,20 +6,20 @@ let box = [
 ]
 
 function randomDigitForFreeField(){
-    let temp=0;
-    while(temp!=2 || temp!=4){
-        temp = Math.random()*10
+    let randomDigit=0;
+    while(randomDigit !=2 && randomDigit!=4){
+        randomDigit = Math.floor(Math.random()*5)
     }
-    return temp
+    return randomDigit
 }
 
 function setDigitOnFreeField(list){
     
-    let row = Math.floor(Math.random()*5);
-    let column = Math.floor(Math.random()*5);
+    let row = Math.floor(Math.random()*4);
+    let column = Math.floor(Math.random()*4);
     while (list[row][column] != 0){
-        row = Math.floor(Math.random()*5);
-        column = Math.floor(Math.random()*5);
+        row = Math.floor(Math.random()*4);
+        column = Math.floor(Math.random()*4);
     } 
     list[row][column]= randomDigitForFreeField()
     
@@ -72,7 +72,7 @@ function upKey(list){
                                 }
                 }
             }
-        //list = setDigitOnFreeField(list);
+        list = setDigitOnFreeField(list);
         return list;
 }
 
@@ -123,7 +123,7 @@ function downKey(list){
             }
             
         }
-    //list = setDigitOnFreeField(list);
+    list = setDigitOnFreeField(list);
     return list
 }
 
@@ -173,7 +173,7 @@ function rightKey(list){
                 }
             }
         }
-        //list = setDigitOnFreeField(list);
+        list = setDigitOnFreeField(list);
         return list
     }
 
@@ -221,7 +221,7 @@ function leftKey(list){
                 }
             }
         }
-            //list = setDigitOnFreeField(list);
+            list = setDigitOnFreeField(list);
         return list
 
     }
