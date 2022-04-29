@@ -15,7 +15,15 @@ function randomDigitForFreeField(){
 }
 
 function setDigitOnFreeField(list){
-    
+    let emptyFields = 0
+    for(let i=0 ; i < list.length ; i++)
+    {
+        for(let j=0 ; j< list.length ; j++)
+            {
+                if(list[i][j]==0) emptyFields += 1;
+            }
+    }
+    if(emptyFields==0) return list;
     let row = Math.floor(Math.random()*4);
     let column = Math.floor(Math.random()*4);
     while (list[row][column] != 0){
@@ -28,14 +36,42 @@ function setDigitOnFreeField(list){
 
 }
 
+function chek(list){
+    let emptyFields=0;
+    let equalFields=0;
+    for(let i=0 ; i < list.length ; i++)
+    {
+        for(let j=0 ; j< list.length ; j++)
+            {
+                if(list[i][j]==0) emptyFields += 1;
+            }
+    }
+    if(emptyFields==0){
+        for(let i=0 ; i < list.length-1 ; i++)
+            {
+                for(let j=0 ; j < list.length ; j++)
+                    {
+                        if(list[i][j]==list[i+1][j]) equalFields += 1;
+                    }
+            }
+        for(let j =0 ; j < list.length - 1 ; j++)
+            {
+                for(let i=0 ; i<list.length ; i++)
+                    {
+                        if(list[i][j]==list[i][j+1]) equalFields +=1;
+                    }
+            }
+    }
+    if(equalFields==0 && emptyFields==0) setTimeout(20000,gameEnd())
+}
+
 function upKey(list){
-    let emptyFields = 0;
     for(let i = 0 ; i < list.length-1 ; i++)      //i = row , j= column
         {
             for(let j = 0 ; j < list.length ; j++)
             {
                 if(list[i][j]==0)
-                {   emptyFields++;
+                { 
                     let first =i;
                     let second = i+1
                     while(first <list.length-1)
@@ -51,14 +87,13 @@ function upKey(list){
                 }
             }
         }
-        let equalFields =0 ;
+        
     for(let i= 0 ;i < list.length-1; i++)
             {
                 for(let j=0; j<list.length; j++)
                 {
                     if(list[i][j]==list[i+1][j]) 
                 {
-                    equalFields ++ ;
                     list[i][j] = 2*list[i][j];
                     result = result +list[i][j];
                     let first =i+1;
@@ -76,22 +111,21 @@ function upKey(list){
                 }
                 }
             }
+            
         list = setDigitOnFreeField(list);
         setArrayOnHTML(list);
-        //if(equalFields==0 && emptyFields==0) gameEnd() ;
+        chek(list)
         box = list
         
 }
 
 function downKey(list){
-    let emptyFields = 0;
     for(let i = list.length-1; i>0 ; i--)
         {
             for(let j=0 ; j < list.length ; j++)
             {
                 if(list[i][j]==0)
                 {   
-                    emptyFields ++;
                     let first = i;
                     let second = i-1
                     while(first>0)
@@ -107,14 +141,13 @@ function downKey(list){
                 }
             }
         }
-        let equalFields =0;
-        for(let i = list.length-1; i>0 ; i--)
+        
+    for(let i = list.length-1; i>0 ; i--)
         {
             for(let j=0 ; j < list.length ; j++)
             {
                 if(list[i][j]==list[i-1][j]) 
                 {   
-                    equalFields++ ;
                     list[i][j] = 2*list[i][j];
                     result = result + list[i][j]
                     let first =i-1;
@@ -134,21 +167,21 @@ function downKey(list){
             }
             
         }
+        
         list = setDigitOnFreeField(list);
-        setArrayOnHTML(list);
-        //if(equalFields==0 && emptyFields==0) gameEnd() ;
+        setArrayOnHTML(list); 
+        chek(list)
         box = list
     
 }
 
 function rightKey(list){
-    let emptyFields =0;
     for(let i = 0 ; i < list.length ; i++)
         {
             for(let j=list.length-1 ; j>0 ; j--)
             {
                 if(list[i][j]==0)
-                {   emptyFields++;
+                {  
                     let first = j;
                     let second = j-1
                     while(first>0)
@@ -164,13 +197,13 @@ function rightKey(list){
                 }
             }
         } 
-    let equalFields =0;
-        for(let i = 0 ; i < list.length ; i++)
+    
+    for(let i = 0 ; i < list.length ; i++)
         {
             for(let j=list.length-1 ; j > 0  ; j--)
             {
                 if(list[i][j]==list[i][j-1]) 
-                {   equalFields++;
+                {   
                     list[i][j] = 2*list[i][j];
                     result = result + list[i][j];
                     let first =j-1;
@@ -189,21 +222,21 @@ function rightKey(list){
                 }
             }
         }
+        
         list = setDigitOnFreeField(list);
         setArrayOnHTML(list);
-        //if(equalFields==0 && emptyFields==0) gameEnd();
+        chek(list)
         box = list
     }
 
 function leftKey(list){
-    let emptyFields=0;
+    
     for(let i = 0 ; i < list.length ; i++)      
         {
             for(let j = 0 ; j < list.length-1; j++)
             {
                 if(list[i][j]==0)
                 {
-                    emptyFields++;
                     let first =j;
                     let second = j+1
                     while(first <list.length-1)
@@ -219,13 +252,13 @@ function leftKey(list){
                 }
             }
         }
-        let equalFields=0;
+        
     for(let i = 0 ; i < list.length ; i++)      
         {
             for(let j = 0 ; j < list.length-1; j++)
             {
                 if(list[i][j]==list[i][j+1]) 
-                {   equalFields++;
+                {   
                     list[i][j] = 2*list[i][j];
                     result = result + list[i][j];
                     let first =j+1;
@@ -243,9 +276,10 @@ function leftKey(list){
                 }
             }
         }
+        
         list = setDigitOnFreeField(list);
-        setArrayOnHTML(list);
-        //if(equalFields==0 && emptyFields==0) gameEnd() ;
+        setArrayOnHTML(list); chek(list)
+        chek(list)
         box = list
 
     }
@@ -279,6 +313,12 @@ function setArrayOnHTML(list){
         ;
 }
 
+function gameEnd(){
+    let  restartGame = confirm("you loose,click to restart game")
+    if(restartGame==true) startNewGame()
+
+    
+}
 
 
 function startNewGame(){ 
